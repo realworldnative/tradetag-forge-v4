@@ -1,12 +1,22 @@
 import type { CognitionLesson, ForgeState, Product, Signal } from "../../shared/types";
 import { nowISO } from "./engine";
-const signals:Signal[]=[{
- id:"seed-1",origin:"SEED",lifecycle:"new",scored:true,headline:"Agent-authorized payments lack portable proof of authority",summary:"Payment rails are converging on agent spend, but portable human authorization remains unresolved.",problem:"Agents can spend; counterparties cannot prove bounded human permission.",publisher:"Composite seed",sourceUrl:"seed://agent-payments",publishedAt:"2026-07-18",retrievedAt:nowISO(),contentHash:"seed",companies:["Visa","Mastercard","Circle"],sourceType:"seed",analysis:{scores:{strategicFit:96,urgency:94,marketPull:90,differentiation:84,revenuePotential:88,buildability:82,defensibility:86,evidenceStrength:90},penalties:{executionRisk:22,overlapPenalty:8,evidenceUncertainty:10},primitiveIds:["delegated-authority","proof","settlement"],brandId:"agreeva",decision:"extend",targetProduct:"TrustLink",publicName:"Authorized Agent Payment",protocolName:"TrustLink Pay",internalType:"agent_spend_capsule",whyNow:"Agent payment rails are standardizing faster than portable authority controls.",reasoning:["Extends TrustLink","Agreeva governs settlement","TradeTag seals lineage"]}
-}];
-const products:Product[]=[
- {id:"p1",publicName:"Protected Reservation",protocolName:"LUXERYD TrustLink",internalType:"ride_commitment_capsule",brandId:"luxeryd",primitiveIds:["intent","identity","settlement","recovery","proof"],status:"prototype",outcomes:[]},
- {id:"p2",publicName:"Protected Deposit",protocolName:"Agreeva TrustLink",internalType:"milestone_release_capsule",brandId:"agreeva",primitiveIds:["settlement","recovery","proof"],status:"testing",outcomes:[]},
- {id:"p3",publicName:"TradeTag Verified",protocolName:"TradeTag receipt",internalType:"append_only_receipt",brandId:"tradetag",primitiveIds:["lineage","proof","trust"],status:"mvp",outcomes:[]}
+const signals: Signal[] = [{
+    id: "seed-1", origin: "SEED", lifecycle: "new", scored: true, headline: "Agent-authorized payments lack portable proof of authority", summary: "Payment rails are converging on agent spend, but portable human authorization remains unresolved.", problem: "Agents can spend; counterparties cannot prove bounded human permission.", publisher: "Composite seed", sourceUrl: "seed://agent-payments", publishedAt: "2026-07-18", retrievedAt: nowISO(), contentHash: "seed", companies: ["Visa", "Mastercard", "Circle"], sourceType: "seed", analysis: { scores: { strategicFit: 96, urgency: 94, marketPull: 90, differentiation: 84, revenuePotential: 88, buildability: 82, defensibility: 86, evidenceStrength: 90 }, penalties: { executionRisk: 22, overlapPenalty: 8, evidenceUncertainty: 10 }, primitiveIds: ["delegated-authority", "proof", "settlement"], brandId: "agreeva", decision: "extend", targetProduct: "TrustLink", publicName: "Authorized Agent Payment", protocolName: "TrustLink Pay", internalType: "agent_spend_capsule", whyNow: "Agent payment rails are standardizing faster than portable authority controls.", reasoning: ["Extends TrustLink", "Agreeva governs settlement", "TradeTag seals lineage"] }
+},
+
 ];
-const cognition:CognitionLesson[]=[{id:"c1",origin:"SEED",tags:["trustlink","brand","commerce"],insight:"Prefer extending an existing TrustLink surface over creating a new brand when the primitive overlap is material.",weightHint:{},createdAt:nowISO()}];
-export const initialState:ForgeState={signals,products,briefs:[],artifacts:[],tags:[],cognition,weights:{strategicFit:96,urgency:94,marketPull:90,differentiation:84,revenuePotential:88,buildability:82,defensibility:86,evidenceStrength:90}};
+signals.push({
+  ...signals[0],
+  id: "seed-2",
+  headline: "Autonomous agents lack verifiable spending limits",
+  summary:
+    "Agent payment systems need portable limits, approval history, and immutable proof of authorization.",
+  publisher: "TradeTag Research",
+});
+const products: Product[] = [
+    { id: "p1", publicName: "Protected Reservation", protocolName: "LUXERYD TrustLink", internalType: "ride_commitment_capsule", brandId: "luxeryd", primitiveIds: ["intent", "identity", "settlement", "recovery", "proof"], status: "prototype", outcomes: [] },
+    { id: "p2", publicName: "Protected Deposit", protocolName: "Agreeva TrustLink", internalType: "milestone_release_capsule", brandId: "agreeva", primitiveIds: ["settlement", "recovery", "proof"], status: "testing", outcomes: [] },
+    { id: "p3", publicName: "TradeTag Verified", protocolName: "TradeTag receipt", internalType: "append_only_receipt", brandId: "tradetag", primitiveIds: ["lineage", "proof", "trust"], status: "mvp", outcomes: [] }
+];
+const cognition: CognitionLesson[] = [{ id: "c1", origin: "SEED", tags: ["trustlink", "brand", "commerce"], insight: "Prefer extending an existing TrustLink surface over creating a new brand when the primitive overlap is material.", weightHint: {}, createdAt: nowISO() }];
+export const initialState: ForgeState = { signals, products, briefs: [], artifacts: [], tags: [], cognition, weights: { strategicFit: 96, urgency: 94, marketPull: 90, differentiation: 84, revenuePotential: 88, buildability: 82, defensibility: 86, evidenceStrength: 90 } };

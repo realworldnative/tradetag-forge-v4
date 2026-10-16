@@ -15,6 +15,7 @@ export default function SignalCard({
   onSelect,
 }: SignalCardProps) {
   const analysis = signal.analysis;
+  const signalRef = `TT-${signal.id}`;
   const score = analysis
     ? finalScore(analysis.scores, analysis.penalties)
     : null;
@@ -65,6 +66,17 @@ export default function SignalCard({
           <h3 style={{ margin: "0 0 6px", fontSize: 17 }}>
             {signal.headline}
           </h3>
+          <div
+  style={{
+    marginBottom: 6,
+    color: T.faint,
+    fontSize: 11,
+    fontFamily: "monospace",
+    letterSpacing: 0.4,
+  }}
+>
+  TradeTag Ref: {signalRef}
+</div>
 
           <p
             style={{

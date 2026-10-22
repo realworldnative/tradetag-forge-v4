@@ -3,7 +3,7 @@ import { createExecutionEnvelope } from "./signalToChain";
 import { createTrustExecutionObject } from "../runtime/TrustExecutionObject";
 import { getExecutionAdapter } from "../runtime/getExecutionAdapter";
 import { createExecutionReceipt } from "../runtime/createExecutionReceipt";
-import { compareEnvelopeToReceipt } from "../conformance/compareEnvelopeToReceipt";
+import { compareFrozenEnvelopeToReceipt } from "../conformance/compareFrozenEnvelopeToReceipt";
 
 export async function main(
   sealReceipt?: (
@@ -53,6 +53,7 @@ export async function main(
   }
 
   const receipt = await createExecutionReceipt({
+    envelopeDigest: frozen.envelopeDigest,
     version: "0.1",
     profile: "STANDARD",
     signalId: envelope.signalId,
@@ -117,9 +118,7 @@ export async function main(
     const receiptToCompare = sealReceipt
       ? await sealReceipt(scenarioReceipt)
       : scenarioReceipt;
-    const comparison = compareEnvelopeToReceipt(
-      envelope, receiptToCompare
-    );
+    const comparison = await compareFrozenEnvelopeToReceipt(frozen, receiptToCompare);
     console.log(scenario.name, comparison);
     if (comparison.status !== scenario.expected) {
       throw new Error(
@@ -134,6 +133,7 @@ export async function main(
   console.error(error);
   throw error;
 });
+
 
 
 

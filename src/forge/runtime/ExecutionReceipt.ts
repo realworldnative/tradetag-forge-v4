@@ -1,4 +1,4 @@
-
+﻿
 export type ExecutionDecision =
   | "BUILD"
   | "MERGE"
@@ -6,6 +6,7 @@ export type ExecutionDecision =
   | "REJECT";
 
 export interface ExecutionReceipt {
+  envelopeDigest?: string;
   version: "0.1";
 profile: "STANDARD";
 
@@ -56,3 +57,4 @@ authorityVerified: boolean | null;
     policyVersion: string;
   };
 }
+

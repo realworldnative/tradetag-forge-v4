@@ -113,25 +113,7 @@ const authorityReport = selectedSignal
   const selectedScore = selectedAnalysis
     ? finalScore(selectedAnalysis.scores, selectedAnalysis.penalties)
     : null;
-const executionEnvelope = buildExecutionEnvelope(
-  selectedSignal,
-{
-  principalId: "test-principal",
-  agentId: "test-agent",
-  identityCredentialRef: "test-identity-credential",
-  delegationCredentialRef: "test-delegation-credential",
-
-  claim: {
-    id: "test-authority-claim",
-    source: "human",
-    subjectId: "test-agent",
-    scope: ["execute"],
-    status: "verified",
-    issuedAt: "2026-10-06T00:00:00.000Z",
-    expiresAt: "2099-12-31T23:59:59.999Z",
-    evidenceRefs: ["test-delegation-credential"],
-  },
-});
+const executionEnvelope = buildExecutionEnvelope(selectedSignal);
   const activeReceiptProfile = "STANDARD" as const;
   const receiptProfileRequirements =
   getReceiptProfileRequirements(activeReceiptProfile);

@@ -1,4 +1,5 @@
-﻿import { createExecutionEnvelope } from "./signalToChain";
+﻿import { freezeEnvelope, verifyFrozenEnvelope } from "./freezeEnvelope";
+import { createExecutionEnvelope } from "./signalToChain";
 import { createTrustExecutionObject } from "../runtime/TrustExecutionObject";
 import { getExecutionAdapter } from "../runtime/getExecutionAdapter";
 import { createExecutionReceipt } from "../runtime/createExecutionReceipt";
@@ -11,7 +12,7 @@ export async function main(
 ) {
   console.log("CONTROLLED DEMO — synthetic authority; no payment or blockchain transaction");
 
-  const envelope = createExecutionEnvelope({
+  const draftEnvelope = createExecutionEnvelope({
     signalId: "demo-only",
     instructionRef: "demo-instruction-001",
     interpretedIntent: "Execute the controlled demonstration",
@@ -36,6 +37,12 @@ export async function main(
     },
   });
 
+  const frozen = await freezeEnvelope(draftEnvelope);
+  if (!(await verifyFrozenEnvelope(frozen))) {
+    throw new Error("Envelope integrity verification failed before execution.");
+  }
+  const envelope = frozen.envelope;
+  console.log("Frozen envelope digest", frozen.envelopeDigest);
   const teo = createTrustExecutionObject(envelope);
   const result = await getExecutionAdapter(
     envelope.executionInterfaceRef
@@ -127,5 +134,6 @@ export async function main(
   console.error(error);
   throw error;
 });
+
 
 

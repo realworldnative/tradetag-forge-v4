@@ -1,11 +1,15 @@
-import { createExecutionEnvelope } from "./signalToChain";
+﻿import { createExecutionEnvelope } from "./signalToChain";
 import { createTrustExecutionObject } from "../runtime/TrustExecutionObject";
 import { getExecutionAdapter } from "../runtime/getExecutionAdapter";
 import { createExecutionReceipt } from "../runtime/createExecutionReceipt";
 import { compareEnvelopeToReceipt } from "../conformance/compareEnvelopeToReceipt";
 
-async function main() {
-  console.log("CONTROLLED DEMO � synthetic authority; no payment or blockchain transaction");
+export async function main(
+  sealReceipt?: (
+    receipt: import("../runtime/ExecutionReceipt").ExecutionReceipt
+  ) => Promise<import("../runtime/ExecutionReceipt").ExecutionReceipt>
+) {
+  console.log("CONTROLLED DEMO — synthetic authority; no payment or blockchain transaction");
 
   const envelope = createExecutionEnvelope({
     signalId: "demo-only",
@@ -98,9 +102,16 @@ async function main() {
   ];
 
   for (const scenario of scenarios) {
+    const scenarioReceipt = {
+      ...scenario.receipt,
+      receiptId: crypto.randomUUID(),
+      createdAt: new Date().toISOString(),
+    };
+    const receiptToCompare = sealReceipt
+      ? await sealReceipt(scenarioReceipt)
+      : scenarioReceipt;
     const comparison = compareEnvelopeToReceipt(
-      envelope,
-      scenario.receipt
+      envelope, receiptToCompare
     );
     console.log(scenario.name, comparison);
     if (comparison.status !== scenario.expected) {
@@ -112,8 +123,9 @@ async function main() {
   console.log("All three controlled scenarios matched expectations.");
 }
 
-main().catch((error) => {
+(typeof window === "undefined" ? main() : Promise.resolve()).catch((error) => {
   console.error(error);
   throw error;
 });
+
 

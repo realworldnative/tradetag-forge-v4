@@ -7,7 +7,8 @@ import { compareFrozenEnvelopeToReceipt } from "../conformance/compareFrozenEnve
 
 export async function main(
   sealReceipt?: (
-    receipt: import("../runtime/ExecutionReceipt").ExecutionReceipt
+    receipt: import("../runtime/ExecutionReceipt").ExecutionReceipt,
+    frozen: import("./freezeEnvelope").FrozenExecutionEnvelope
   ) => Promise<import("../runtime/ExecutionReceipt").ExecutionReceipt>
 ) {
   console.log("CONTROLLED DEMO — synthetic authority; no payment or blockchain transaction");
@@ -116,7 +117,7 @@ export async function main(
       createdAt: new Date().toISOString(),
     };
     const receiptToCompare = sealReceipt
-      ? await sealReceipt(scenarioReceipt)
+      ? await sealReceipt(scenarioReceipt, frozen)
       : scenarioReceipt;
     const comparison = await compareFrozenEnvelopeToReceipt(frozen, receiptToCompare);
     console.log(scenario.name, comparison);
@@ -133,6 +134,7 @@ export async function main(
   console.error(error);
   throw error;
 });
+
 
 
 
